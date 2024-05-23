@@ -35,34 +35,36 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
-public class Main extends Application {
+
+public class Main {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        Application.launch(Main.class, (java.lang.String[])null);
-    }
+    public static void main(String[] args){
+            Platform.startup(() -> {
+                // Create and configure the primary stage
+                Stage primaryStage = new Stage();
+                ResourceBundle i18nBundle = ResourceBundle.getBundle("helloi18n.Bundle", new Locale("fr", "FR"));
+                // This line to resolve keys against Bundle_fr_FR.properties
+                try {
+                    AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("HelloI18N.fxml"), i18nBundle);
+                    Scene scene = new Scene(page);
+                    primaryStage.setScene(scene);
+                    primaryStage.setTitle(i18nBundle.getString("application.title"));
+                    primaryStage.show();
+                }catch (Exception ex){
+                    System.out.println(ex.getMessage());
+                }
 
-    @Override
-    public void start(Stage primaryStage) {
-        try {
-            // This line to resolve keys against Bundle.properties
-            ResourceBundle i18nBundle = ResourceBundle.getBundle("helloi18n.Bundle", new Locale("fr", "FR"));
-            // This line to resolve keys against Bundle_fr_FR.properties
-//            ResourceBundle i18nBundle = ResourceBundle.getBundle("helloi18n.Bundle", new Locale("fr", "FR"));
-            AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("HelloI18N.fxml"), i18nBundle);
-            Scene scene = new Scene(page);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle(i18nBundle.getString("application.title"));
-            primaryStage.show();
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
+            });
     }
 }
