@@ -56,7 +56,7 @@ public class Main {
                 ResourceBundle i18nBundle = ResourceBundle.getBundle("helloi18n.Bundle", new Locale("fr", "FR"));
                 // This line to resolve keys against Bundle_fr_FR.properties
                 try {
-                    AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("HelloI18N.fxml"), i18nBundle);
+                    AnchorPane page = FXMLLoader.load(Main.class.getResource("HelloI18N.fxml"), i18nBundle);
                     Scene scene = new Scene(page);
                     primaryStage.setScene(scene);
                     primaryStage.setTitle(i18nBundle.getString("application.title"));
